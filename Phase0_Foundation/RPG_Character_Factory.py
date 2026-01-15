@@ -38,11 +38,35 @@ print(character)
 def combat_encounter(character, monster_hp, damage=15):
     while monster_hp >0:
         monster_hp -= damage
-        print ("Player Attacks! Monster HP is now:", monster_hp)
+        
         if monster_hp < 0:
             monster_hp = 0
+        print ("Player Attacks! Monster HP is now:", monster_hp)
+
+        if monster_hp == 0:
             break
+
     print("Monster Defeated!")
     return character
 
+#Objective 3: Integration of Character Factory and Combat Engine
+#This module integrates the character factory and combat engine to simulate a battle scenario.
+#Task: Write main_game_logic that connects Factrory and Combat Engine.
+#Goal: Create a character and simulate a combat encounter with a monster, with loot drop upon victory.
+
+def main_game_logic():
+    character = create_char(name, role)
+    print("Character Created:", character)
+
+    monster_hp = 40
+    print("A wild monster appears with HP:", monster_hp)
+
+    updated_character = combat_encounter(character, monster_hp)
+
+    loot = "Golden Key"
+    updated_character["inventory"].append(loot)
+    print("Loot Acquired:", loot)
+    print("Updated Character:", updated_character)
     
+    
+main_game_logic()
