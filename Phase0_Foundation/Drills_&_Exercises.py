@@ -151,4 +151,25 @@
 #             clean_batch.append(item)
 #     return clean_batch
 
-    
+# #Drill 06: Final Exam - Manual Mode 
+# #Task: Calculate API Bill 
+
+# model_costs = {"gpt-4": 0.03, "gpt-3.5": 0.002}
+# usage_logs = [
+#     {"model": "gpt-4", "tokens": 100},
+#     {"model": "gpt-3.5", "tokens": 1000},
+#     {"model": "llama-2", "tokens": 500} # TRAP: Not in cost dict
+# ]
+
+# def calculate_bills(usage_logs, model_costs):
+#     total_bill= 0
+#     for log in usage_logs:
+#         model = log["model"]
+#         tokens = log["tokens"]
+#         if model in model_costs:
+#             cost = model_costs[model]
+#             total_bill += tokens * cost
+#         else:
+#             pass
+#     return total_bill
+# total_bill = calculate_bills(usage_logs, model_costs)
