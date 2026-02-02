@@ -1,0 +1,22 @@
+# 1. This is the "Knowledge Base" (Dictionary)
+knowledge_base = {
+    "weather": "It is sunny and 75 degrees.",
+    "gym": "Leg day is today.",
+    "python": "Dictionaries are key-value pairs."
+}
+
+# 2. This is the "Agent Brain" (Function)
+def simple_agent(user_question):
+    # The agent looks for a keyword in the dictionary
+    if user_question in knowledge_base:
+        return f"I found this: {knowledge_base[user_question]}"
+    else:
+        return "I don't know that yet."
+
+# 3. This is the "User Interface" (Input)
+print("--- AI AGENT ONLINE ---")
+user_input = input("Ask about 'weather', 'gym', or 'python': ")
+
+# 4. Run the Agent
+response = simple_agent(user_input)
+print(response)

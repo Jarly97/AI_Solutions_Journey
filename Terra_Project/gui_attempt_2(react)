@@ -1,0 +1,70 @@
+from nicegui import ui
+import asyncio
+
+# --- 1. THE TOOLS (The "Arms" of the Agent) ---
+async def calculator_tool(expression):
+    await asyncio.sleep(1) # Fake delay (simulating work)
+    return eval(expression) # WARNING: eval is dangerous in prod, fine for drills
+
+async def weather_tool(Houston):
+    await asyncio.sleep(1) # Fake delay
+    return f"It is sunny and 85 degrees in {Houston}."
+
+# --- 2. THE AGENT BRAIN (The ReAct Loop) ---
+async def run_react_agent():
+    question = user_input.value.lower()
+    
+    # CLEAR the logs so we can see fresh thinking
+    log_box.clear()
+    log_box.push(f"❓ User asked: {question}")
+    
+    # STEP 1: REASONING (The "Thought")
+    log_box.push("🧠 THOUGHT: Does this require math?")
+    await asyncio.sleep(1)
+    
+    # (In a real AI, an LLM would decide this part. We are simulating it.)
+    if "+" in question or "-" in question:
+        log_box.push("🧠 THOUGHT: Yes. I should use the Calculator Tool.")
+        await asyncio.sleep(1)
+        
+        # STEP 2: ACTION (The "Act")
+        # Extract the math part (super simple logic for the drill)
+        math_part = ''.join(filter(lambda x: x.isdigit() or x in ['+', '-'], question))
+        log_box.push(f"🛠️ ACTION: Calling Calculator('{math_part}')")
+        
+        # STEP 3: OBSERVATION (The Result)
+        result = await calculator_tool(math_part)
+        log_box.push(f"👀 OBSERVATION: Tool returned {result}")
+        await asyncio.sleep(1)
+        
+        # STEP 4: FINAL ANSWER
+        log_box.push(f"✅ FINAL ANSWER: The answer is {result}")
+    
+    elif "weather" in question:
+        log_box.push("🧠 THOUGHT: Weather question detected. Using Weather Tool.")
+        await asyncio.sleep(1)
+    
+        log_box.push("🛠️ ACTION: Calling Weather('Houston')")
+        result = await weather_tool("Houston")
+        log_box.push(f"👀 OBSERVATION: Tool returned {result}")
+        await asyncio.sleep(1)
+    
+        log_box.push(f"✅ FINAL ANSWER: {result}")
+    
+    else:
+        # Fallback for non-math or weather questions
+        log_box.push("🧠 THOUGHT: No math or weather detected. I'll just chat.")
+        log_box.push("✅ FINAL ANSWER: I am a math bot or weather bot. Give me numbers or ask me about the weather!")
+
+# --- 3. THE UI (The Dashboard) ---
+with ui.card().classes('w-full max-w-lg mx-auto p-4'): # A nice card container
+    ui.label("🤖 ReAct Agent Dashboard").classes('text-xl font-bold')
+    
+    user_input = ui.input(label="Ask me a math question or about the weather in Houston")
+    ui.button('Run Agent', on_click=run_react_agent)
+
+    # A "Log Box" to see the brain work (Crucial for Architects!)
+    ui.label("Agent Thoughts:").classes('mt-4 font-bold text-gray-500')
+    log_box = ui.log().classes('w-full h-40 bg-gray-100 p-2 rounded')
+
+ui.run()

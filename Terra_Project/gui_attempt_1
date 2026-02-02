@@ -1,0 +1,27 @@
+from nicegui import ui
+
+# 1. The "Knowledge Base" (Dictionary)
+knowledge_base = {
+    "weather": "It is sunny and 75 degrees.",
+    "gym": "Leg day is today.",
+    "python": "Dictionaries are key-value pairs."
+}
+
+# 2. The "Agent Brain" (Function)
+def run_agent():
+    user_question = user_input_box.value.lower().strip() # Added .lower() for robustness
+    
+    if user_question in knowledge_base:
+        result_label.text = f"🤖 Agent says: {knowledge_base[user_question]}"
+    else:
+        result_label.text = "🤖 Agent says: I don't know that yet."
+
+# 3. The "User Interface"
+ui.label("--- AI AGENT ONLINE ---").classes('text-2xl font-bold')
+
+user_input_box = ui.input(label="Ask about 'weather', 'gym', or 'python'")
+ui.button('Ask Agent', on_click=run_agent)
+result_label = ui.label("Waiting for question...")
+
+# 4. Start the App (native allows it to look like a desktop app)
+ui.run()
